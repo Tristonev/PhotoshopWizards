@@ -14,7 +14,7 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layers);
-        int[] buttonIDs = {R.id.LayersAdd, R.id.LayersEdit, R.id.LayersRemove, R.id.LayersSwap};
+        int[] buttonIDs = {R.id.LayersAdd, R.id.LayersEdit, R.id.LayersRemove, R.id.LayersSwap, R.id.LayersBack};
         setupButtons(buttonIDs);
 
 
@@ -35,5 +35,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
             Intent intent = new Intent(this, EditImageActivity.class);
             startActivity(intent);
         }
+        if(view.getId() == R.id.LayersBack){
+            Intent intent = new Intent(this, LoadCanvasActivity.class);
+            startActivity(intent);
+        }
+
     }
 }
