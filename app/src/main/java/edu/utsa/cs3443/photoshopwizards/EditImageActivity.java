@@ -18,11 +18,11 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_edit_image);
 
 
-        int[] buttonIDs = {R.id.EditImageBack, R.id.FlipHorizontal, R.id.FlipVertical, R.id.InvertColor, R.id.Grayscale};
+        int[] buttonIDs = {R.id.EditImageBack, R.id.FlipHorizontal, R.id.FlipVertical, R.id.InvertColor, R.id.Grayscale, R.id.Restore};
         setupButtons(buttonIDs);
 
         mainImage = findViewById(R.id.EditingImage);
-        mainImage.setImageResource(R.drawable.dog_canvas);
+        mainImage.setImageResource(R.drawable.dog1);
 
     }
 
@@ -51,5 +51,19 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
             mainImage.setImageResource(R.drawable.dog1_grayscale);
         }
 
+        if (view.getId() == R.id.FlipVertical)
+        {
+            mainImage.setImageResource(R.drawable.dog1_flipped_vertically);
+        }
+
+        if (view.getId() == R.id.InvertColor)
+        {
+            mainImage.setImageResource(R.drawable.dog1_inverted);
+        }
+
+        if(view.getId() == R.id.Restore)
+        {
+            mainImage.setImageResource(R.drawable.dog1);
+        }
     }
 }
