@@ -28,7 +28,7 @@ public class LoadCanvasActivity extends AppCompatActivity implements View.OnClic
 
         if(invertDog == true)
         {
-            canvas1.setImageResource(R.drawable.invert_canvas);
+            canvas1.setImageResource(R.drawable.invert_dragon_canvas);
         }
         else {
             canvas1.setImageResource(R.drawable.dog_canvas);

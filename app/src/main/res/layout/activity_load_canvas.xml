@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/LoadCanvasText"
         android:layout_width="match_parent"
         android:layout_height="86dp"
         android:gravity="center"
@@ -21,22 +21,22 @@
 
         <ImageView
             android:id="@+id/Canvas1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
     </LinearLayout>
@@ -48,22 +48,22 @@
 
         <ImageView
             android:id="@+id/Canvas4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
     </LinearLayout>
@@ -75,22 +75,22 @@
 
         <ImageView
             android:id="@+id/Canvas7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
     </LinearLayout>
@@ -102,22 +102,22 @@
 
         <ImageView
             android:id="@+id/Canvas10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
 
         <ImageView
             android:id="@+id/Canvas12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@drawable/image_placeholder" />
     </LinearLayout>
