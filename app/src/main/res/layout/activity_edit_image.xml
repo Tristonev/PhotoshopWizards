@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/EditingImage"
         android:layout_width="394dp"
         android:layout_height="394dp"
         android:layout_marginStart="8dp"
@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_placeholder" />
+        app:srcCompat="@drawable/image_placeholder"
+        tools:srcCompat="@drawable/dog1" />
 
     <Button
         android:id="@+id/FlipHorizontal"
