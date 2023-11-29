@@ -14,7 +14,9 @@ import edu.utsa.cs3443.photoshopwizards.model.EditImage;
 public class EditImageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView mainImage;
-    private int imageId;
+    private int ptrImage;
+    private Bitmap editBit;
+    private Bitmap[] storeBit;
     private EditImage editImage;
 
     @Override
@@ -25,13 +27,11 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
         int[] buttonIDs = {R.id.EditImageBack, R.id.FlipHorizontal, R.id.FlipVertical, R.id.InvertColor, R.id.Grayscale, R.id.Restore};
         setupButtons(buttonIDs);
 
-        Bundle extras =getIntent().getExtras();
-        if(extras != null){
-            imageId = extras.getInt("imageId");
-        }
+        loadExtra();
+
         mainImage = findViewById(R.id.EditingImage);
-        mainImage.setImageResource(imageId);
-        editImage = new EditImage(this, imageId);
+        mainImage.setImageBitmap(editBit);
+        editImage = new EditImage(editBit);
 
     }
 
@@ -48,7 +48,11 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
 
         if (view.getId() == R.id.EditImageBack){
             Intent intent = new Intent(this, LayersActivity.class);
-            intent.putExtra("editedLayer",editImage.getNewImg());
+            storeBit[ptrImage] = editImage.getNewImg();
+            intent.putExtra("image1",storeBit[0]);
+            intent.putExtra("image2",storeBit[1]);
+            intent.putExtra("image3",storeBit[2]);
+            intent.putExtra("background",storeBit[3]);
             startActivity(intent);
         }
 
@@ -84,6 +88,19 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
             editImage.loadDefault();
             mainImage.setImageBitmap(editImage.getNewImg());
             //mainImage.setImageResource(R.drawable.dog1);
+        }
+    }
+
+    private void loadExtra(){
+        Bundle extras =getIntent().getExtras();
+        storeBit = new Bitmap[4];
+        if(extras != null){
+            storeBit[0] = extras.getParcelable("image1");
+            storeBit[1] = extras.getParcelable("image2");
+            storeBit[2] = extras.getParcelable("image3");
+            storeBit[3] = extras.getParcelable("background");
+            ptrImage = extras.getInt("ptrImage");
+            editBit = storeBit[ptrImage];
         }
     }
 }

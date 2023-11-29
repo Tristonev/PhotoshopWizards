@@ -67,6 +67,7 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
             intent.putExtra("image1",image1);
             intent.putExtra("image2",image2);
             intent.putExtra("image3",image3);
+            intent.putExtra("background",background);
             startActivity(intent);
         }
     }

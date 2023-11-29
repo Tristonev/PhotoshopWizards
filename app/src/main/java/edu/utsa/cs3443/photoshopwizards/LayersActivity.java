@@ -1,6 +1,7 @@
 package edu.utsa.cs3443.photoshopwizards;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LayersActivity extends AppCompatActivity implements View.OnClickListener {
 
     private boolean buttonClicked;
+    private boolean editClicked;
+    private boolean removeClicked;
     private int[] buttonIDs;
+    private Bitmap image1;
+    private Bitmap image2;
+    private Bitmap image3;
+    private Bitmap background;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -56,9 +63,17 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         System.out.println("Hello");
 
         if (view.getId() == R.id.LayersEdit){
-            buttonClicked = true;
-            TextView text = findViewById(R.id.ChangeText);
-            text.setText("Choose a layer to edit");
+            if(editClicked || buttonClicked){
+                editClicked = false;
+                buttonClicked = false;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose an option");
+            }else{
+                editClicked = true;
+                buttonClicked = true;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose a layer to edit");
+            }
 
         }
         if (view.getId() == R.id.LayersAdd){
@@ -70,9 +85,18 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if (view.getId() == R.id.LayersRemove){
-            buttonClicked = true;
-            TextView text = findViewById(R.id.ChangeText);
-            text.setText("Choose a layer to remove");
+            if(removeClicked || buttonClicked){
+                removeClicked = false;
+                buttonClicked = false;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose an option");
+            }else{
+                removeClicked = true;
+                buttonClicked = true;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose a layer to remove");
+            }
+
         }
 
 
@@ -81,6 +105,46 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
             startActivity(intent);
         }
 
+        if(view.getId() == R.id.LayersCreate){
+            Intent intent = new Intent(this, LayersActivity.class);
+            intent.putExtra("image1",image1);
+            intent.putExtra("image2",image2);
+            intent.putExtra("image3",image3);
+            intent.putExtra("background",background);
+            startActivity(intent);
+        }
 
+        if(view.getId() == R.id.LayerImage1){
+            if(editClicked){
+                sendToEdit(0);
+            }
+        }
+        if(view.getId() == R.id.LayerImage2){
+            if(editClicked){
+                sendToEdit(1);
+            }
+        }
+        if(view.getId() == R.id.LayerImage3){
+            if(editClicked){
+                sendToEdit(2);
+            }
+        }
+        if(view.getId() == R.id.LayerImage4){
+            if(editClicked){
+                sendToEdit(3);
+            }
+        }
     }
+
+    private void sendToEdit(int ptr){
+        Intent intent = new Intent(this, EditImageActivity.class);
+        intent.putExtra("image1",image1);
+        intent.putExtra("image2",image2);
+        intent.putExtra("image3",image3);
+        intent.putExtra("background",background);
+        intent.putExtra("ptrImage",ptr);
+        startActivity(intent);
+    }
+
+
 }
