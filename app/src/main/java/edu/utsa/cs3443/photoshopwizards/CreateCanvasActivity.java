@@ -4,15 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.graphics.Bitmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import edu.utsa.cs3443.photoshopwizards.model.EditImage;
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoEditorView;
 
+/**
+ * The CreateCanvasActivity class displays the selected background and loads the selected images for the user to resize
+ * and reposition
+ * @author Ryan Johnson, vkg540
+ */
 public class CreateCanvasActivity extends AppCompatActivity implements View.OnClickListener {
 
     PhotoEditorView canvasView;
@@ -39,7 +42,10 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
         }
 
         canvasView = findViewById(R.id.MainCanvas);
-        canvasView.getSource().setImageBitmap(background);
+        if(background != null) {
+            canvasView.getSource().setImageBitmap(background);
+        }
+        //Having a transparent image as the default background would be good
 
         edit = new PhotoEditor.Builder(this,canvasView).build();
 
@@ -56,8 +62,6 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        System.out.println("Hello");
-
         if(view.getId() == R.id.CanvasBack){
             Intent intent = new Intent(this, LayersActivity.class);
             intent.putExtra("image1",image1);
