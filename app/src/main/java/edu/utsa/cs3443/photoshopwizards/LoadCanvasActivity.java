@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoadCanvasActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static boolean invertDog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -26,13 +26,8 @@ public class LoadCanvasActivity extends AppCompatActivity implements View.OnClic
         ImageView canvas5 = findViewById(R.id.Canvas5);
         ImageView canvas6 = findViewById(R.id.Canvas6);
 
-        if(invertDog == true)
-        {
-            canvas1.setImageResource(R.drawable.invert_dragon_canvas);
-        }
-        else {
-            canvas1.setImageResource(R.drawable.dog_canvas);
-        }
+
+        canvas1.setImageResource(R.drawable.dog_canvas);
         canvas2.setImageResource(R.drawable.dog_canvas2);
         canvas3.setImageResource(R.drawable.skele_canvas);
         canvas4.setImageResource(R.drawable.skele_canvas2);
@@ -59,7 +54,6 @@ public class LoadCanvasActivity extends AppCompatActivity implements View.OnClic
 
 
     private void launchActivity(View view) {
-            invertDog = true;
             Intent intent = new Intent(this, LayersActivity.class);
             startActivity(intent);
 

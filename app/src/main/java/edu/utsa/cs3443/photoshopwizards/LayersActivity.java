@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LayersActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static boolean invertDog;
-    private static boolean dragon;
     private boolean buttonClicked;
     private int[] buttonIDs;
     @Override
@@ -40,20 +38,11 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         ImageView layer3 = findViewById(R.id.LayerImage3);
         ImageView layer4 = findViewById(R.id.LayerImage4);
 
+        //ONLY PLACEHOLDER
         layer1.setImageResource(R.drawable.dog_background);
-        if (invertDog) {
-            layer2.setImageResource(R.drawable.dog1_inverted);
-        }
-        else {
-            layer2.setImageResource(R.drawable.dog1);
-        }
+        layer2.setImageResource(R.drawable.dog1);
         layer3.setImageResource(R.drawable.dog2);
-        if (dragon){
-            layer4.setImageResource(R.drawable.dragon);
-        }
-        else {
-            layer4.setImageResource(R.drawable.dog3);
-        }
+        layer4.setImageResource(R.drawable.dog3);
 
         layer1.setOnClickListener(this);
         layer2.setOnClickListener(this);
@@ -73,37 +62,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
         }
         if (view.getId() == R.id.LayersAdd){
-            dragon = true;
+            buttonClicked = true;
             setContentView(R.layout.activity_load_canvas);
             TextView text = findViewById(R.id.LoadCanvasText);
             text.setText("Choose an image to add");
-
-            ImageView canvas1 = findViewById(R.id.Canvas1);
-            ImageView canvas2 = findViewById(R.id.Canvas2);
-            ImageView canvas3 = findViewById(R.id.Canvas3);
-            ImageView canvas4 = findViewById(R.id.Canvas4);
-            ImageView canvas5 = findViewById(R.id.Canvas5);
-            ImageView canvas6 = findViewById(R.id.Canvas6);
-            ImageView canvas7 = findViewById(R.id.Canvas7);
-            ImageView canvas8 = findViewById(R.id.Canvas8);
-            canvas1.setImageResource(R.drawable.dog1);
-            canvas2.setImageResource(R.drawable.dog2);
-            canvas3.setImageResource(R.drawable.dog3);
-            canvas4.setImageResource(R.drawable.mage);
-            canvas5.setImageResource(R.drawable.knight);
-            canvas6.setImageResource(R.drawable.dragon);
-
-            canvas6.setOnClickListener(this);
-
-            canvas7.setImageResource(R.drawable.skeleton);
-            canvas8.setImageResource(R.drawable.blast);
-
-        }
-        if (view.getId() == R.id.Canvas6){
-
-            setContentView(R.layout.activity_layers);
-            setupImages();
-            setupButtons(buttonIDs);
 
         }
 
@@ -112,24 +74,13 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
             TextView text = findViewById(R.id.ChangeText);
             text.setText("Choose a layer to remove");
         }
-        if (view.getId() == R.id.LayerImage4 && buttonClicked)
-        {
-            ImageView layer4 = findViewById(R.id.LayerImage4);
-            layer4.setImageResource(R.drawable.white);
-            TextView text = findViewById(R.id.ChangeText);
-            text.setText("Choose an option");
-        }
+
 
         if(view.getId() == R.id.LayersBack){
             Intent intent = new Intent(this, LoadCanvasActivity.class);
             startActivity(intent);
         }
-        if(view.getId() == R.id.LayerImage2 && buttonClicked ){
-            invertDog = true;
-            buttonClicked = false;
-            Intent intent = new Intent(this, EditImageActivity.class);
-            startActivity(intent);
-        }
+
 
     }
 }
