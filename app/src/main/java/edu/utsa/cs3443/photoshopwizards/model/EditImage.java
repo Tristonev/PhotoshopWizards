@@ -16,6 +16,11 @@ public class EditImage {
         newBitmap = BitmapFactory.decodeResource(resource, imageId);
     }
 
+    public EditImage(Bitmap bit){
+        defaultBitmap = bit;
+        newBitmap = bit;
+    }
+
     public void flipX(){
         Matrix matrix = new Matrix();
         matrix.postScale(-1 , 1, newBitmap.getWidth() / 2f, newBitmap.getHeight() / 2f);
