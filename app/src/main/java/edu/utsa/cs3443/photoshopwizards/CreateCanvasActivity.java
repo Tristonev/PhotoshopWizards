@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.graphics.Bitmap;
+import android.widget.Toast;
+
+import edu.utsa.cs3443.photoshopwizards.model.Image;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +22,7 @@ import ja.burhanrashid52.photoeditor.PhotoEditorView;
 public class CreateCanvasActivity extends AppCompatActivity implements View.OnClickListener {
 
     PhotoEditorView canvasView;
-    PhotoEditor edit;
+    PhotoEditor canvas;
     private Bitmap background;
     private Bitmap image1;
     private Bitmap image2;
@@ -47,16 +50,16 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
         }
         //Having a transparent image as the default background would be good
 
-        edit = new PhotoEditor.Builder(this,canvasView).build();
+        canvas = new PhotoEditor.Builder(this,canvasView).build();
 
         if(image3 != null){
-            edit.addImage(image3);
+            canvas.addImage(image3);
         }
         if(image2 != null){
-            edit.addImage(image2);
+            canvas.addImage(image2);
         }
         if(image1 != null){
-            edit.addImage(image1);
+            canvas.addImage(image1);
         }
     }
 
@@ -69,6 +72,13 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
             intent.putExtra("image3",image3);
             intent.putExtra("background",background);
             startActivity(intent);
+        }else if(view.getId() == R.id.Save){
+            try {
+                Image.saveImageTest(this, canvas);
+                Toast.makeText(view.getContext(),"Canvas saved!",Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

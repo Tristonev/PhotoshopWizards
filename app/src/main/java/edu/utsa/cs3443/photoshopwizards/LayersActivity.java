@@ -185,12 +185,16 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view.getId() == R.id.LayersCreate){
-            Intent intent = new Intent(this, CreateCanvasActivity.class);
-            intent.putExtra("image1",image1);
-            intent.putExtra("image2",image2);
-            intent.putExtra("image3",image3);
-            intent.putExtra("background",background);
-            startActivity(intent);
+            if(image1 == null && image2 == null && image3 == null && background == null){
+                Toast.makeText(view.getContext(),"You can't make an image with nothing!",Toast.LENGTH_SHORT).show();
+            }else{
+                Intent intent = new Intent(this, CreateCanvasActivity.class);
+                intent.putExtra("image1",image1);
+                intent.putExtra("image2",image2);
+                intent.putExtra("image3",image3);
+                intent.putExtra("background",background);
+                startActivity(intent);
+            }
         }
 
         if(view.getId() == R.id.LayerImage1){
@@ -227,7 +231,7 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
         if(swapImageClicked){
-            imageX = swaping(imageX);
+            imageX = swapping(imageX);
             bitmapOnLayer(imageX,layerX);
             reset();
         }
@@ -263,13 +267,14 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         startActivity(intent);
     }
 
-    private Bitmap swaping(Bitmap toSwap){
+    private Bitmap swapping(Bitmap toSwap){
         Bitmap temp = toSwap;
         switch(swapId){
             case 1:
                 toSwap = image1;
                 image1 = temp;
                 bitmapOnLayer(image1,layer1);
+                break;
             case 2:
                 toSwap = image2;
                 image2 = temp;
