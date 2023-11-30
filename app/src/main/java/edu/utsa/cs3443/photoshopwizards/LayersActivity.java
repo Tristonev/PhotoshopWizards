@@ -146,6 +146,8 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
             }
             addClicked = true;
             buttonClicked = true;
+            TextView text = findViewById(R.id.ChangeText);
+            text.setText("Choose a layer to add to");
 
         }
 
