@@ -185,7 +185,7 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view.getId() == R.id.LayersCreate){
-            Intent intent = new Intent(this, LayersActivity.class);
+            Intent intent = new Intent(this, CreateCanvasActivity.class);
             intent.putExtra("image1",image1);
             intent.putExtra("image2",image2);
             intent.putExtra("image3",image3);
@@ -194,174 +194,63 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if(view.getId() == R.id.LayerImage1){
-            if(editClicked){
-                if(image1 == null){
-                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    sendToEdit(0);
-                }
-            }
-            if(removeClicked){
-                if(image1 == null){
-                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    image1 = null;
-                    layer1.setImageResource(R.drawable.image_placeholder);
-                    reset();
-                }
-            }
-            if(swapClicked){
-                swapId = 1;
-                swapClicked = false;
-                swapImageClicked = true;
-                TextView text = findViewById(R.id.ChangeText);
-                text.setText("Choose a second layer");
-            }
-            if(swapImageClicked){
-                image1 = swaping(image1);
-                bitmapOnLayer(image1,layer1);
-            }
-            if(addClicked){
-                if(image1 != null){
-                    Toast.makeText(this,"There is already an image in this layer",Toast.LENGTH_SHORT).show();
-                    reset();
-                }
-                else{
-                    layerPicked = 1;
-                    pickMedia.launch(new PickVisualMediaRequest.Builder()
-                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                            .build());
-                }
-            }
+            image1 = layerClicked(image1, layer1, 1);
         }
         if(view.getId() == R.id.LayerImage2){
-            if(editClicked){
-                if(image2 == null){
-                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    sendToEdit(1);
-                }
-            }
-            if(removeClicked){
-                if(image2 == null){
-                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    image2 = null;
-                    layer2.setImageResource(R.drawable.image_placeholder);
-                    reset();
-                }
-            }
-            if(swapClicked){
-                swapId = 2;
-                swapClicked = false;
-                swapImageClicked = true;
-                TextView text = findViewById(R.id.ChangeText);
-                text.setText("Choose a second layer");
-            }
-            if(swapImageClicked){
-                image2 = swaping(image2);
-                bitmapOnLayer(image2,layer2);
-            }
-            if(addClicked) {
-                if (image2 != null) {
-                    Toast.makeText(this, "There is already an image in this layer", Toast.LENGTH_SHORT).show();
-                    reset();
-                } else {
-                    layerPicked = 2;
-                    pickMedia.launch(new PickVisualMediaRequest.Builder()
-                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                            .build());
-                }
-            }
+            image2 = layerClicked(image2, layer2, 2);
         }
         if(view.getId() == R.id.LayerImage3){
-            if(editClicked){
-                if(image3 == null){
-                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    sendToEdit(2);
-                }
-            }
-            if(removeClicked){
-                if(image3 == null){
-                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    image3 = null;
-                    layer3.setImageResource(R.drawable.image_placeholder);
-                    reset();
-                }
-            }
-            if(swapClicked){
-                swapId = 3;
-                swapClicked = false;
-                swapImageClicked = true;
-                TextView text = findViewById(R.id.ChangeText);
-                text.setText("Choose a second layer");
-            }
-            if(swapImageClicked){
-                image3 = swaping(image3);
-                bitmapOnLayer(image3,layer3);
-            }
-            if(addClicked) {
-                if (image3 != null) {
-                    Toast.makeText(this, "There is already an image in this layer", Toast.LENGTH_SHORT).show();
-                    reset();
-                } else {
-                    layerPicked = 3;
-                    pickMedia.launch(new PickVisualMediaRequest.Builder()
-                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                            .build());
-                }
+            image3 = layerClicked(image3, layer3, 3);
+        }
+        if(view.getId() == R.id.LayerImage4) {
+            background = layerClicked(background, layer4, 4);
+        }
+    }
+
+    private Bitmap layerClicked(Bitmap imageX, ImageView layerX, int ptr){
+        if(editClicked){
+            if(imageX == null){
+                Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
+                reset();
+            }else {
+                sendToEdit(ptr-1);
             }
         }
-        if(view.getId() == R.id.LayerImage4){
-            if(editClicked){
-                if(background == null){
-                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    sendToEdit(3);
-                }
-            }
-            if(removeClicked){
-                if(background == null){
-                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
-                    reset();
-                }else {
-                    background = null;
-                    layer4.setImageResource(R.drawable.image_placeholder);
-                    reset();
-                }
-            }
-            if(swapClicked){
-                swapId = 4;
-                swapClicked = false;
-                swapImageClicked = true;
-                TextView text = findViewById(R.id.ChangeText);
-                text.setText("Choose a second layer");
-            }
-            if(swapImageClicked){
-                background = swaping(background);
-                bitmapOnLayer(background,layer4);
-            }
-            if(addClicked) {
-                if (background != null) {
-                    Toast.makeText(this, "There is already an image in this layer", Toast.LENGTH_SHORT).show();
-                    reset();
-                } else {
-                    layerPicked = 4;
-                    pickMedia.launch(new PickVisualMediaRequest.Builder()
-                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                            .build());
-                }
+        if(removeClicked){
+            if(imageX == null){
+                Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
+                reset();
+            }else {
+                imageX = null;
+                layerX.setImageResource(R.drawable.image_placeholder);
+                reset();
             }
         }
+        if(swapImageClicked){
+            imageX = swaping(imageX);
+            bitmapOnLayer(imageX,layerX);
+            reset();
+        }
+        if(swapClicked){
+            swapId = ptr;
+            swapClicked = false;
+            swapImageClicked = true;
+            TextView text = findViewById(R.id.ChangeText);
+            text.setText("Choose a second layer");
+        }
+        if(addClicked){
+            if(imageX != null){
+                Toast.makeText(this,"There is already an image in this layer",Toast.LENGTH_SHORT).show();
+                reset();
+            }
+            else{
+                layerPicked = ptr;
+                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                        .build());
+            }
+        }
+        return imageX;
     }
 
     private void sendToEdit(int ptr){
