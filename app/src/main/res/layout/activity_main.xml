@@ -17,7 +17,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/MainWizard"
         android:layout_width="match_parent"
         android:layout_height="259dp"
         app:srcCompat="@drawable/picture_magic_logo" />

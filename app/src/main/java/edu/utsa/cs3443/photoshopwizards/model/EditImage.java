@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
-public class EditImage {
+public class EditImage extends Image {
     private Bitmap defaultBitmap;
     private Bitmap newBitmap;
 

@@ -1,18 +1,27 @@
 package edu.utsa.cs3443.photoshopwizards;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.FileNotFoundException;
 
 public class LayersActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private boolean addClicked;
     private boolean buttonClicked;
     private boolean editClicked;
     private boolean removeClicked;
@@ -27,7 +36,55 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
     private Bitmap image2;
     private Bitmap image3;
     private Bitmap background;
+    private Bitmap photoPickerBitmap;
+    private int layerPicked;
     private int swapId;
+
+    //Made into an attribute because it will throw an exception if put inside a function while being called from a button
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                //Calls back after the user selects a media item or closes the
+                //PhotoPicker
+                if (uri != null) {
+                    Log.d("PhotoPicker", "Selected URI: " + uri);
+                    String path = uri.getPath();
+
+                    Context context = getBaseContext();
+                    try {
+                        photoPickerBitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri));
+                        switch(layerPicked){
+                            case 1:
+                                layer1.setImageBitmap(photoPickerBitmap);
+                                image1 = photoPickerBitmap;
+                                break;
+                            case 2:
+                                layer2.setImageBitmap(photoPickerBitmap);
+                                image2 = photoPickerBitmap;
+                                break;
+                            case 3:
+                                layer3.setImageBitmap(photoPickerBitmap);
+                                image3 = photoPickerBitmap;
+                                break;
+                            case 4:
+                                layer4.setImageBitmap(photoPickerBitmap);
+                                background = photoPickerBitmap;
+                                break;
+                            default:
+                                Toast.makeText(this,"Invalid Layer Selected",Toast.LENGTH_SHORT).show();
+                        }
+                        reset();
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(photoPickerBitmap == null)
+                    {
+                        Log.d("nullBitmap", "bitmap is null");
+                    }
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -36,6 +93,9 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         setupButtons(buttonIDs);
 
         setupImages();
+
+
+
     }
 
     private void setupButtons(int[] buttonIDs){
@@ -81,10 +141,11 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
         }
         if (view.getId() == R.id.LayersAdd){
+            if(addClicked || buttonClicked){
+                reset();
+            }
+            addClicked = true;
             buttonClicked = true;
-            setContentView(R.layout.activity_load_canvas);
-            TextView text = findViewById(R.id.LoadCanvasText);
-            text.setText("Choose an image to add");
 
         }
 
@@ -156,6 +217,18 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
                 image1 = swaping(image1);
                 bitmapOnLayer(image1,layer1);
             }
+            if(addClicked){
+                if(image1 != null){
+                    Toast.makeText(this,"There is already an image in this layer",Toast.LENGTH_SHORT).show();
+                    reset();
+                }
+                else{
+                    layerPicked = 1;
+                    pickMedia.launch(new PickVisualMediaRequest.Builder()
+                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                            .build());
+                }
+            }
         }
         if(view.getId() == R.id.LayerImage2){
             if(editClicked){
@@ -186,6 +259,17 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
             if(swapImageClicked){
                 image2 = swaping(image2);
                 bitmapOnLayer(image2,layer2);
+            }
+            if(addClicked) {
+                if (image2 != null) {
+                    Toast.makeText(this, "There is already an image in this layer", Toast.LENGTH_SHORT).show();
+                    reset();
+                } else {
+                    layerPicked = 2;
+                    pickMedia.launch(new PickVisualMediaRequest.Builder()
+                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                            .build());
+                }
             }
         }
         if(view.getId() == R.id.LayerImage3){
@@ -218,6 +302,17 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
                 image3 = swaping(image3);
                 bitmapOnLayer(image3,layer3);
             }
+            if(addClicked) {
+                if (image3 != null) {
+                    Toast.makeText(this, "There is already an image in this layer", Toast.LENGTH_SHORT).show();
+                    reset();
+                } else {
+                    layerPicked = 3;
+                    pickMedia.launch(new PickVisualMediaRequest.Builder()
+                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                            .build());
+                }
+            }
         }
         if(view.getId() == R.id.LayerImage4){
             if(editClicked){
@@ -248,6 +343,17 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
             if(swapImageClicked){
                 background = swaping(background);
                 bitmapOnLayer(background,layer4);
+            }
+            if(addClicked) {
+                if (background != null) {
+                    Toast.makeText(this, "There is already an image in this layer", Toast.LENGTH_SHORT).show();
+                    reset();
+                } else {
+                    layerPicked = 4;
+                    pickMedia.launch(new PickVisualMediaRequest.Builder()
+                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                            .build());
+                }
             }
         }
     }
@@ -296,13 +402,17 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+
+
     private void reset(){
         editClicked = false;
         removeClicked = false;
         swapClicked = false;
         swapImageClicked = false;
+        addClicked = false;
         buttonClicked = false;
         swapId = 0;
+        layerPicked = 0;
         TextView text = findViewById(R.id.ChangeText);
         text.setText("Choose an option");
     }
