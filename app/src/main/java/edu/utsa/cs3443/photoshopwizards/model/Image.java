@@ -16,7 +16,21 @@ import java.util.Objects;
 
 public abstract class Image {
 
+    private Bitmap bitmap;
+
     public Image(){}
+
+    public Image(Bitmap bitmap){
+        this.bitmap = bitmap;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
     public void saveImage(Activity activity, Drawable image) throws Exception{
 
