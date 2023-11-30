@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,11 +16,18 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
     private boolean buttonClicked;
     private boolean editClicked;
     private boolean removeClicked;
+    private boolean swapClicked;
+    private boolean swapImageClicked;
     private int[] buttonIDs;
+    private ImageView layer1;
+    private ImageView layer2;
+    private ImageView layer3;
+    private ImageView layer4;
     private Bitmap image1;
     private Bitmap image2;
     private Bitmap image3;
     private Bitmap background;
+    private int swapId;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -28,7 +36,6 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         setupButtons(buttonIDs);
 
         setupImages();
-
     }
 
     private void setupButtons(int[] buttonIDs){
@@ -40,16 +47,16 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setupImages()
     {
-        ImageView layer1 = findViewById(R.id.LayerImage1);
-        ImageView layer2 = findViewById(R.id.LayerImage2);
-        ImageView layer3 = findViewById(R.id.LayerImage3);
-        ImageView layer4 = findViewById(R.id.LayerImage4);
+        layer1 = findViewById(R.id.LayerImage1);
+        layer2 = findViewById(R.id.LayerImage2);
+        layer3 = findViewById(R.id.LayerImage3);
+        layer4 = findViewById(R.id.LayerImage4);
 
         //ONLY PLACEHOLDER
-        layer1.setImageResource(R.drawable.dog_background);
-        layer2.setImageResource(R.drawable.dog1);
-        layer3.setImageResource(R.drawable.dog2);
-        layer4.setImageResource(R.drawable.dog3);
+        layer1.setImageResource(R.drawable.image_placeholder);
+        layer2.setImageResource(R.drawable.image_placeholder);
+        layer3.setImageResource(R.drawable.image_placeholder);
+        layer4.setImageResource(R.drawable.image_placeholder);
 
         layer1.setOnClickListener(this);
         layer2.setOnClickListener(this);
@@ -64,10 +71,7 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
         if (view.getId() == R.id.LayersEdit){
             if(editClicked || buttonClicked){
-                editClicked = false;
-                buttonClicked = false;
-                TextView text = findViewById(R.id.ChangeText);
-                text.setText("Choose an option");
+                reset();
             }else{
                 editClicked = true;
                 buttonClicked = true;
@@ -86,10 +90,7 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
         if (view.getId() == R.id.LayersRemove){
             if(removeClicked || buttonClicked){
-                removeClicked = false;
-                buttonClicked = false;
-                TextView text = findViewById(R.id.ChangeText);
-                text.setText("Choose an option");
+                reset();
             }else{
                 removeClicked = true;
                 buttonClicked = true;
@@ -97,6 +98,17 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
                 text.setText("Choose a layer to remove");
             }
 
+        }
+
+        if(view.getId() == R.id.LayersSwap){
+            if(swapClicked || buttonClicked){
+                reset();
+            }else{
+                swapClicked = true;
+                buttonClicked = true;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose a layer to swap");
+            }
         }
 
 
@@ -116,22 +128,126 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
         if(view.getId() == R.id.LayerImage1){
             if(editClicked){
-                sendToEdit(0);
+                if(image1 == null){
+                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    sendToEdit(0);
+                }
+            }
+            if(removeClicked){
+                if(image1 == null){
+                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    image1 = null;
+                    layer1.setImageResource(R.drawable.image_placeholder);
+                    reset();
+                }
+            }
+            if(swapClicked){
+                swapId = 1;
+                swapClicked = false;
+                swapImageClicked = true;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose a second layer");
+            }
+            if(swapImageClicked){
+                image1 = swaping(image1);
+                bitmapOnLayer(image1,layer1);
             }
         }
         if(view.getId() == R.id.LayerImage2){
             if(editClicked){
-                sendToEdit(1);
+                if(image2 == null){
+                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    sendToEdit(1);
+                }
+            }
+            if(removeClicked){
+                if(image2 == null){
+                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    image2 = null;
+                    layer2.setImageResource(R.drawable.image_placeholder);
+                    reset();
+                }
+            }
+            if(swapClicked){
+                swapId = 2;
+                swapClicked = false;
+                swapImageClicked = true;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose a second layer");
+            }
+            if(swapImageClicked){
+                image2 = swaping(image2);
+                bitmapOnLayer(image2,layer2);
             }
         }
         if(view.getId() == R.id.LayerImage3){
             if(editClicked){
-                sendToEdit(2);
+                if(image3 == null){
+                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    sendToEdit(2);
+                }
+            }
+            if(removeClicked){
+                if(image3 == null){
+                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    image3 = null;
+                    layer3.setImageResource(R.drawable.image_placeholder);
+                    reset();
+                }
+            }
+            if(swapClicked){
+                swapId = 3;
+                swapClicked = false;
+                swapImageClicked = true;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose a second layer");
+            }
+            if(swapImageClicked){
+                image3 = swaping(image3);
+                bitmapOnLayer(image3,layer3);
             }
         }
         if(view.getId() == R.id.LayerImage4){
             if(editClicked){
-                sendToEdit(3);
+                if(background == null){
+                    Toast.makeText(this,"This image is empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    sendToEdit(3);
+                }
+            }
+            if(removeClicked){
+                if(background == null){
+                    Toast.makeText(this,"This image is already empty",Toast.LENGTH_SHORT).show();
+                    reset();
+                }else {
+                    background = null;
+                    layer4.setImageResource(R.drawable.image_placeholder);
+                    reset();
+                }
+            }
+            if(swapClicked){
+                swapId = 4;
+                swapClicked = false;
+                swapImageClicked = true;
+                TextView text = findViewById(R.id.ChangeText);
+                text.setText("Choose a second layer");
+            }
+            if(swapImageClicked){
+                background = swaping(background);
+                bitmapOnLayer(background,layer4);
             }
         }
     }
@@ -144,6 +260,51 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         intent.putExtra("background",background);
         intent.putExtra("ptrImage",ptr);
         startActivity(intent);
+    }
+
+    private Bitmap swaping(Bitmap toSwap){
+        Bitmap temp = toSwap;
+        switch(swapId){
+            case 1:
+                toSwap = image1;
+                image1 = temp;
+                bitmapOnLayer(image1,layer1);
+            case 2:
+                toSwap = image2;
+                image2 = temp;
+                bitmapOnLayer(image2,layer2);
+                break;
+            case 3:
+                toSwap = image3;
+                image3 = temp;
+                bitmapOnLayer(image3,layer3);
+                break;
+            case 4:
+                toSwap = background;
+                background = temp;
+                bitmapOnLayer(background,layer4);
+                break;
+        }
+        return toSwap;
+    }
+
+    private void bitmapOnLayer(Bitmap bit, ImageView layer){
+        if(bit != null){
+            layer.setImageBitmap(bit);
+        }else{
+            layer.setImageResource(R.drawable.image_placeholder);
+        }
+    }
+
+    private void reset(){
+        editClicked = false;
+        removeClicked = false;
+        swapClicked = false;
+        swapImageClicked = false;
+        buttonClicked = false;
+        swapId = 0;
+        TextView text = findViewById(R.id.ChangeText);
+        text.setText("Choose an option");
     }
 
 
