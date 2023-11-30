@@ -92,10 +92,15 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         buttonIDs = new int[]{R.id.LayersAdd, R.id.LayersEdit, R.id.LayersRemove, R.id.LayersSwap, R.id.LayersBack, R.id.LayersCreate};
         setupButtons(buttonIDs);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            image1 = extras.getParcelable("image1");
+            image2 = extras.getParcelable("image2");
+            image3 = extras.getParcelable("image3");
+            background = extras.getParcelable("background");
+        }
+
         setupImages();
-
-
-
     }
 
     private void setupButtons(int[] buttonIDs){
@@ -112,11 +117,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         layer3 = findViewById(R.id.LayerImage3);
         layer4 = findViewById(R.id.LayerImage4);
 
-        //ONLY PLACEHOLDER
-        layer1.setImageResource(R.drawable.image_placeholder);
-        layer2.setImageResource(R.drawable.image_placeholder);
-        layer3.setImageResource(R.drawable.image_placeholder);
-        layer4.setImageResource(R.drawable.image_placeholder);
+        bitmapOnLayer(image1, layer1);
+        bitmapOnLayer(image2, layer2);
+        bitmapOnLayer(image3, layer3);
+        bitmapOnLayer(background, layer4);
 
         layer1.setOnClickListener(this);
         layer2.setOnClickListener(this);
