@@ -48,7 +48,7 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
     //Made into an attribute because it will throw an exception if put inside a function while being called from a button
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
-                //Calls back after the user selects a media item or closes the
+                //Calls back once the user has selected an image
                 //PhotoPicker
                 if (uri != null) {
                     Log.d("PhotoPicker", "Selected URI: " + uri);

@@ -1,15 +1,26 @@
 package edu.utsa.cs3443.photoshopwizards;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.graphics.Bitmap;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileNotFoundException;
+
 import edu.utsa.cs3443.photoshopwizards.model.EditImage;
+import edu.utsa.cs3443.photoshopwizards.model.Image;
 
 public class EditImageActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -18,20 +29,56 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
     private Bitmap editBit;
     private Bitmap[] storeBit;
     private EditImage editImage;
+    private ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
+                //Calls back once the user has selected an image
+                //PhotoPicker
+                if (uri != null) {
+                    Log.d("PhotoPicker", "Selected URI: " + uri);
+                    String path = uri.getPath();
+
+                    Context context = getBaseContext();
+                    try {
+                        editBit = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri));
+                        editImage = new EditImage(editBit);
+                        mainImage = findViewById(R.id.EditingImage);
+                        mainImage.setImageBitmap(editBit);
+
+                    } catch (FileNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                    if(editBit == null)
+                    {
+                        Log.d("nullBitmap", "bitmap is null");
+                    }
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            });
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_image);
 
-        int[] buttonIDs = {R.id.EditImageBack, R.id.FlipHorizontal, R.id.FlipVertical, R.id.InvertColor, R.id.Grayscale, R.id.Restore};
+        int[] buttonIDs = {R.id.EditImageBack, R.id.FlipHorizontal, R.id.FlipVertical,
+                R.id.InvertColor, R.id.Grayscale, R.id.Restore, R.id.SaveImage};
         setupButtons(buttonIDs);
 
         loadExtra();
 
-        mainImage = findViewById(R.id.EditingImage);
-        mainImage.setImageBitmap(editBit);
-        editImage = new EditImage(editBit);
+        if(editBit != null) {
+            mainImage = findViewById(R.id.EditingImage);
+            mainImage.setImageBitmap(editBit);
+            editImage = new EditImage(editBit);
+        }else{
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
+        }
+
+
 
     }
 
@@ -60,34 +107,39 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
         {
             editImage.flipX();
             mainImage.setImageBitmap(editImage.getNewImg());
-            //mainImage.setImageResource(R.drawable.dog1_flipped_horizontal);
         }
         if (view.getId() == R.id.Grayscale)
         {
             editImage.greyscale();
             mainImage.setImageBitmap(editImage.getNewImg());
-            //mainImage.setImageResource(R.drawable.dog1_grayscale);
         }
 
         if (view.getId() == R.id.FlipVertical)
         {
             editImage.flipY();
             mainImage.setImageBitmap(editImage.getNewImg());
-            //mainImage.setImageResource(R.drawable.dog1_flipped_vertically);
         }
 
         if (view.getId() == R.id.InvertColor)
         {
             editImage.invertColor();
             mainImage.setImageBitmap(editImage.getNewImg());
-            //mainImage.setImageResource(R.drawable.dog1_inverted);
         }
 
         if(view.getId() == R.id.Restore)
         {
             editImage.loadDefault();
             mainImage.setImageBitmap(editImage.getNewImg());
-            //mainImage.setImageResource(R.drawable.dog1);
+        }
+
+        if(view.getId() == R.id.SaveImage){
+            try {
+                Image.saveImage(this, mainImage.getDrawable());
+                Toast.makeText(this,"Image Saved!",Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
