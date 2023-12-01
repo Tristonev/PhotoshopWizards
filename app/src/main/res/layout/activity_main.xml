@@ -41,6 +41,6 @@
         android:id="@+id/MainEdit"
         android:layout_width="223dp"
         android:layout_height="wrap_content"
-        android:text="Edit Existing Canvas" />
+        android:text="Edit an Image" />
 
 </LinearLayout>
