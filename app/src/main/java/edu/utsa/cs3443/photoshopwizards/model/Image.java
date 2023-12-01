@@ -13,6 +13,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Objects;
 
@@ -37,7 +42,7 @@ public abstract class Image {
         this.bitmap = bitmap;
     }
 
-    public void saveImage(Activity activity, Drawable image) throws Exception{
+    public static void saveImage(Activity activity, Drawable image) throws Exception{
 
         Uri images;
         ContentResolver contentResolver = activity.getContentResolver();
@@ -103,4 +108,36 @@ public abstract class Image {
         Objects.requireNonNull(outputStream);
 
     }
+
+    public static Uri saveImageToFile(Activity activity, Drawable image){
+        File file = new File(activity.getCacheDir() + File.separator + System.currentTimeMillis() + ".jpg");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) image;
+        Bitmap bitmap = bitmapDrawable.getBitmap();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0 , bos);
+        byte[] bitmapdata = bos.toByteArray();
+
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Uri uri = Uri.fromFile(file);
+        return uri;
+    }
+
 }

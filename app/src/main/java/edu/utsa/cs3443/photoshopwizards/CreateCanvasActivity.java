@@ -1,10 +1,13 @@
 package edu.utsa.cs3443.photoshopwizards;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import edu.utsa.cs3443.photoshopwizards.model.Image;
@@ -27,6 +30,10 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
     private Bitmap image1;
     private Bitmap image2;
     private Bitmap image3;
+    private Uri backgroundUri;
+    private Uri image1Uri;
+    private Uri image2Uri;
+    private Uri image3Uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +45,37 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            background = extras.getParcelable("background");
-            image1 = extras.getParcelable("image1");
-            image2 = extras.getParcelable("image2");
-            image3 = extras.getParcelable("image3");
+            backgroundUri = extras.getParcelable("uriB");
+            image1Uri = extras.getParcelable("uri1");
+            image2Uri = extras.getParcelable("uri2");
+            image3Uri = extras.getParcelable("uri3");
         }
+        Bitmap bitmap;
+        BitmapDrawable bitmapDrawable;
+
+        ImageView view = findViewById(R.id.testDragon);
+        view.setImageURI(backgroundUri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        background = bitmap;
+
+        view.setImageURI(image1Uri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        image1 = bitmap;
+
+        view.setImageURI(image2Uri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        image2 = bitmap;
+
+        view.setImageURI(image3Uri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        image3 = bitmap;
+
+        view.setImageBitmap(null);
+
 
         canvasView = findViewById(R.id.MainCanvas);
         if(background != null) {

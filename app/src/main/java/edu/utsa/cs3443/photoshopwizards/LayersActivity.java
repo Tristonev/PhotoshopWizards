@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +18,11 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import edu.utsa.cs3443.photoshopwizards.model.Image;
 
 public class LayersActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -101,7 +106,22 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         setupImages();
+
+
+
     }
+
+    private void createFileTest(){
+        File file = new File(getCacheDir() + File.separator + System.currentTimeMillis() + ".jpg");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("Made it here");
+    }
+
 
     private void setupButtons(int[] buttonIDs){
         for (int id : buttonIDs){
@@ -189,10 +209,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(view.getContext(),"You can't make an image with nothing!",Toast.LENGTH_SHORT).show();
             }else{
                 Intent intent = new Intent(this, CreateCanvasActivity.class);
-                intent.putExtra("image1",image1);
-                intent.putExtra("image2",image2);
-                intent.putExtra("image3",image3);
-                intent.putExtra("background",background);
+                intent.putExtra("uri1", Image.saveImageToFile(this, layer1.getDrawable()));
+                intent.putExtra("uri2", Image.saveImageToFile(this, layer2.getDrawable()));
+                intent.putExtra("uri3", Image.saveImageToFile(this, layer3.getDrawable()));
+                intent.putExtra("uriB", Image.saveImageToFile(this, layer4.getDrawable()));
                 startActivity(intent);
             }
         }
