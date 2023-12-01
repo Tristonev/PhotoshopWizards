@@ -22,6 +22,10 @@ import java.io.FileNotFoundException;
 import edu.utsa.cs3443.photoshopwizards.model.EditImage;
 import edu.utsa.cs3443.photoshopwizards.model.Image;
 
+/**
+ * the EditImageActivity class edits an image based on user input
+ * @author Ryan Johnson, vkg540
+ */
 public class EditImageActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView mainImage;
@@ -29,6 +33,7 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
     private Bitmap editBit;
     private Bitmap[] storeBit;
     private EditImage editImage;
+    private String source;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 //Calls back once the user has selected an image
@@ -56,7 +61,10 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
                 }
             });
 
-
+    /**
+     * initializes the screen and checks for files passed through intent
+     * @param savedInstanceState, used for designating the instance (Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -77,11 +85,12 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
                     .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                     .build());
         }
-
-
-
     }
 
+    /**
+     * initializes an array of button objects
+     * @param buttonIDs, refers to multiple button object (int[])
+     */
     private void setupButtons(int[] buttonIDs){
         for (int id : buttonIDs){
             Button button = findViewById(id);
@@ -89,18 +98,26 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /**
+     * reacts to user click input
+     * @param view, object for determining where the user clicked (view)
+     */
     @Override
     public void onClick(View view) {
-        System.out.println("Hello");
 
         if (view.getId() == R.id.EditImageBack){
-            Intent intent = new Intent(this, LayersActivity.class);
-            storeBit[ptrImage] = editImage.getNewImg();
-            intent.putExtra("image1",storeBit[0]);
-            intent.putExtra("image2",storeBit[1]);
-            intent.putExtra("image3",storeBit[2]);
-            intent.putExtra("background",storeBit[3]);
-            startActivity(intent);
+            if(source.equals("LayersActivity")){
+                Intent intent = new Intent(this, LayersActivity.class);
+                storeBit[ptrImage] = editImage.getNewImg();
+                intent.putExtra("image1",storeBit[0]);
+                intent.putExtra("image2",storeBit[1]);
+                intent.putExtra("image3",storeBit[2]);
+                intent.putExtra("background",storeBit[3]);
+                startActivity(intent);
+            }else if(source.equals("MainActivity")){
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+            }
         }
 
         if (view.getId() == R.id.FlipHorizontal)
@@ -143,15 +160,20 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /**
+     * loads data sent through the intent
+     */
     private void loadExtra(){
         Bundle extras =getIntent().getExtras();
         storeBit = new Bitmap[4];
+        source = "";
         if(extras != null){
             storeBit[0] = extras.getParcelable("image1");
             storeBit[1] = extras.getParcelable("image2");
             storeBit[2] = extras.getParcelable("image3");
             storeBit[3] = extras.getParcelable("background");
             ptrImage = extras.getInt("ptrImage");
+            source = extras.getString("source");
             editBit = storeBit[ptrImage];
         }
     }

@@ -24,6 +24,11 @@ import java.io.IOException;
 
 import edu.utsa.cs3443.photoshopwizards.model.Image;
 
+/**
+ * The LayersActivity manages individual layers for the canvas
+ * @author Ryan Johnson, vkg540
+ * @author
+ */
 public class LayersActivity extends AppCompatActivity implements View.OnClickListener {
 
     private boolean addClicked;
@@ -90,6 +95,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
                 }
             });
 
+    /**
+     * initializes the screen and checks for files passed through intent
+     * @param savedInstanceState, used for designating the instance (Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -106,9 +115,6 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         setupImages();
-
-
-
     }
 
     private void createFileTest(){
@@ -122,7 +128,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         System.out.println("Made it here");
     }
 
-
+    /**
+     * initializes an array of button objects
+     * @param buttonIDs, refers to multiple button object (int[])
+     */
     private void setupButtons(int[] buttonIDs){
         for (int id : buttonIDs){
             Button button = findViewById(id);
@@ -130,6 +139,9 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * initializes each layer
+     */
     private void setupImages()
     {
         layer1 = findViewById(R.id.LayerImage1);
@@ -149,9 +161,12 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    /**
+     * reacts to user click input and responds based on context
+     * @param view, object for determining where the user clicked (view)
+     */
     @Override
     public void onClick(View view) {
-        System.out.println("Hello");
 
         if (view.getId() == R.id.LayersEdit){
             if(editClicked || buttonClicked){
@@ -231,6 +246,13 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * Handles cases where an image layer is clicked
+     * @param imageX, bitmap of image clicked (Bitmap)
+     * @param layerX, view of image clicked (ImageView)
+     * @param ptr, represents the image clicked (int)
+     * @return Bitmap, bitmap of image clicked after potential changes
+     */
     private Bitmap layerClicked(Bitmap imageX, ImageView layerX, int ptr){
         if(editClicked){
             if(imageX == null){
@@ -277,16 +299,26 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         return imageX;
     }
 
+    /**
+     * prepares layers to be sent to EditImageActivity
+     * @param ptr, represents image to be edited (int)
+     */
     private void sendToEdit(int ptr){
         Intent intent = new Intent(this, EditImageActivity.class);
-        intent.putExtra("image1",image1);
-        intent.putExtra("image2",image2);
-        intent.putExtra("image3",image3);
-        intent.putExtra("background",background);
+        intent.putExtra("uri1", Image.saveImageToFile(this, layer1.getDrawable()));
+        intent.putExtra("uri2", Image.saveImageToFile(this, layer2.getDrawable()));
+        intent.putExtra("uri3", Image.saveImageToFile(this, layer3.getDrawable()));
+        intent.putExtra("uriB", Image.saveImageToFile(this, layer4.getDrawable()));
         intent.putExtra("ptrImage",ptr);
+        intent.putExtra("source","LayersActivity");
         startActivity(intent);
     }
 
+    /**
+     * swaps two layers based on previous input
+     * @param toSwap, image to be swapped (Bitmap)
+     * @return Bitmap, image after swap
+     */
     private Bitmap swapping(Bitmap toSwap){
         Bitmap temp = toSwap;
         switch(swapId){
@@ -314,6 +346,11 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         return toSwap;
     }
 
+    /**
+     * loads a bitmap onto a view
+     * @param bit, bitmap to be loaded (Bitmap)
+     * @param layer, view to be changed (ImageView)
+     */
     private void bitmapOnLayer(Bitmap bit, ImageView layer){
         if(bit != null){
             layer.setImageBitmap(bit);
@@ -322,8 +359,9 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
-
+    /**
+     * resets context of which buttons were clicked
+     */
     private void reset(){
         editClicked = false;
         removeClicked = false;

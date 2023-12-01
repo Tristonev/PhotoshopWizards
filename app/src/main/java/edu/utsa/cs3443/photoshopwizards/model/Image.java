@@ -29,24 +29,49 @@ import java.util.Objects;
 import ja.burhanrashid52.photoeditor.OnSaveBitmap;
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 
+/**
+ * Abstract class that represents an image in the program
+ * @author
+ */
 public abstract class Image {
 
     private Bitmap bitmap;
 
+    /**
+     * Initializes the image object
+     */
     public Image(){}
 
+    /**
+     * Initializes the image object with a bitmap object
+     * @param bitmap, bitmap representing the image (Bitmap)
+     */
     public Image(Bitmap bitmap){
         this.bitmap = bitmap;
     }
 
+    /**
+     * Returns object bitmap
+     * @return Bitmap, object bitmap
+     */
     public Bitmap getBitmap() {
         return bitmap;
     }
 
+    /**
+     * Sets a new object bitmap
+     * @param bitmap, new object bitmap (Bitmap)
+     */
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
+    /**
+     * Saves a given image to the device's gallery
+     * @param activity, context for the program (Activity)
+     * @param image, image to be saved (Drawable)
+     * @throws Exception
+     */
     public static void saveImage(Activity activity, Drawable image) throws Exception{
 
         Uri images;
@@ -143,6 +168,11 @@ public abstract class Image {
 
     }
 
+    /**
+     * Stores a screenshot of a given view as a bitmap
+     * @param view, view to be screenshot (View)
+     * @return Bitmap, screenshot of the given view
+     */
     public static Bitmap takeCanvasScreenshot(View view){
         Bitmap newBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(newBitmap);
@@ -158,6 +188,12 @@ public abstract class Image {
         return newBitmap;
     }
 
+    /**
+     * Saves an image as a file
+     * @param activity, context for the program (Activity)
+     * @param image, image to be saved (Drawable)
+     * @return Uri, link to the saved file
+     */
     public static Uri saveImageToFile(Activity activity, Drawable image){
         File file = new File(activity.getCacheDir() + File.separator + System.currentTimeMillis() + ".jpg");
         try {

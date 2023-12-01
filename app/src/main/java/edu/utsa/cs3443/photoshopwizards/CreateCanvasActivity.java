@@ -36,6 +36,10 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
     private Uri image2Uri;
     private Uri image3Uri;
 
+    /**
+     * initializes the screen and checks for files passed through intent
+     * @param savedInstanceState, used for designating the instance (Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +102,10 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    /**
+     * reacts to user click input
+     * @param view, The view that was clicked (View)
+     */
     @Override
     public void onClick(View view) {
         if(view.getId() == R.id.CanvasBack){
@@ -132,6 +140,10 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    /**
+     * initializes an array of button objects
+     * @param buttonIDs, refers to multiple button object (int[])
+     */
     private void setupButtons(int[] buttonIDs) {
         for (int id : buttonIDs) {
             Button button = findViewById(id);

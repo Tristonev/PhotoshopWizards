@@ -7,9 +7,16 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * The MainActivity class serves as a menu to either create a canvas or edit a single image
+ * @author
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    /**
+     * initializes the screen
+     * @param savedInstanceState, used for designating the instance (Bundle)
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -21,6 +28,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * initializes an array of button objects
+     * @param buttonIDs, refers to multiple button object (int[])
+     */
     private void setupButtons(int[] buttonIDs){
         for (int id : buttonIDs){
             Button button = findViewById(id);
@@ -28,13 +39,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * reacts to user click input
+     * @param view, object for determining where the user clicked (view)
+     */
     @Override
     public void onClick(View view) {
-        System.out.println("Hello");
         launchActivity(view);
     }
 
-
+    /**
+     * changes screen based on given view
+     * @param view, object for determining where the user clicked (view)
+     */
     private void launchActivity(View view) {
         if (view.getId() == R.id.MainCreate){
             Intent intent = new Intent(this, LayersActivity.class);
@@ -42,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (view.getId() == R.id.MainEdit){
             Intent intent = new Intent(this, EditImageActivity.class);
+            intent.putExtra("source","MainActivity");
             startActivity(intent);
         }
     }
