@@ -13,6 +13,7 @@ import android.widget.Toast;
 import edu.utsa.cs3443.photoshopwizards.model.Image;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoEditorView;
@@ -53,7 +54,7 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
         Bitmap bitmap;
         BitmapDrawable bitmapDrawable;
 
-        ImageView view = findViewById(R.id.testDragon);
+        ImageView view = findViewById(R.id.saveView);
         view.setImageURI(backgroundUri);
         bitmapDrawable = (BitmapDrawable) view.getDrawable();
         bitmap = bitmapDrawable.getBitmap();
@@ -76,7 +77,6 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
 
         view.setImageBitmap(null);
 
-
         canvasView = findViewById(R.id.MainCanvas);
         if(background != null) {
             canvasView.getSource().setImageBitmap(background);
@@ -94,6 +94,8 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
         if(image1 != null){
             canvas.addImage(image1);
         }
+
+
     }
 
     @Override
@@ -107,8 +109,23 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
             startActivity(intent);
         }else if(view.getId() == R.id.Save){
             try {
-                Image.saveImageTest(this, canvas);
+
+                ConstraintLayout layout = findViewById(R.id.ConstraintCanvas);
+                ImageView testDragon = findViewById(R.id.saveView);
+                Bitmap screenshot = Image.takeCanvasScreenshot(layout);
+                testDragon.setImageBitmap(screenshot);
+
+                int heightRemoved = screenshot.getHeight() - canvasView.getHeight();
+                int widthRemoved = screenshot.getWidth() - (canvasView.getWidth() - 2 * (int) testDragon.getX());
+
+                Bitmap finalImage = Bitmap.createBitmap(screenshot, (int) testDragon.getX(), (int) testDragon.getY(),
+                        screenshot.getWidth() - widthRemoved, screenshot.getHeight() - heightRemoved);
+                testDragon.setImageBitmap(finalImage);
+
+                Image.saveImage(this, testDragon.getDrawable());
                 Toast.makeText(view.getContext(),"Canvas saved!",Toast.LENGTH_SHORT).show();
+                testDragon.setImageBitmap(null);
+
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
