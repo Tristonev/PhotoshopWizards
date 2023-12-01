@@ -16,9 +16,6 @@
             android:name=".CreateCanvasActivity"
             android:exported="false" />
         <activity
-            android:name=".LoadCanvasActivity"
-            android:exported="false" />
-        <activity
             android:name=".EditImageActivity"
             android:exported="false" />
         <activity

@@ -200,7 +200,7 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
 
         if(view.getId() == R.id.LayersBack){
-            Intent intent = new Intent(this, LoadCanvasActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
 
