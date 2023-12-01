@@ -64,4 +64,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * prevents the user from using the back button to access other activities
+     */
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            return;
+        }
+        super.onBackPressed();
+    }
 }

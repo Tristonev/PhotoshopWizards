@@ -3,6 +3,8 @@ package edu.utsa.cs3443.photoshopwizards;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,9 +33,10 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
     private ImageView mainImage;
     private int ptrImage;
     private Bitmap editBit;
-    private Bitmap[] storeBit;
+    private Uri[] storeUri;
     private EditImage editImage;
     private String source;
+    private ImageView handler;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                 //Calls back once the user has selected an image
@@ -108,11 +111,12 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
         if (view.getId() == R.id.EditImageBack){
             if(source.equals("LayersActivity")){
                 Intent intent = new Intent(this, LayersActivity.class);
-                storeBit[ptrImage] = editImage.getNewImg();
-                intent.putExtra("image1",storeBit[0]);
-                intent.putExtra("image2",storeBit[1]);
-                intent.putExtra("image3",storeBit[2]);
-                intent.putExtra("background",storeBit[3]);
+                handler.setImageBitmap(editImage.getNewImg());
+                storeUri[ptrImage] = Image.saveImageToFile(this, handler.getDrawable());
+                intent.putExtra("uri1", storeUri[0]);
+                intent.putExtra("uri2", storeUri[1]);
+                intent.putExtra("uri3", storeUri[2]);
+                intent.putExtra("uriB", storeUri[3]);
                 startActivity(intent);
             }else if(source.equals("MainActivity")){
                 Intent intent = new Intent(this, MainActivity.class);
@@ -165,16 +169,46 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
      */
     private void loadExtra(){
         Bundle extras =getIntent().getExtras();
-        storeBit = new Bitmap[4];
+        handler = findViewById(R.id.saveViewEdit);
+        BitmapDrawable bitmapDrawable;
+        storeUri = new Uri[4];
         source = "";
+        ptrImage = 0;
         if(extras != null){
-            storeBit[0] = extras.getParcelable("image1");
-            storeBit[1] = extras.getParcelable("image2");
-            storeBit[2] = extras.getParcelable("image3");
-            storeBit[3] = extras.getParcelable("background");
+            storeUri[0] = extras.getParcelable("uri1");
+            storeUri[1] = extras.getParcelable("uri2");
+            storeUri[2] = extras.getParcelable("uri3");
+            storeUri[3] = extras.getParcelable("uriB");
             ptrImage = extras.getInt("ptrImage");
             source = extras.getString("source");
-            editBit = storeBit[ptrImage];
         }
+        switch(ptrImage){
+            case 1:
+                handler.setImageURI(storeUri[0]);
+                break;
+            case 2:
+                handler.setImageURI(storeUri[1]);
+                break;
+            case 3:
+                handler.setImageURI(storeUri[2]);
+                break;
+            case 4:
+                handler.setImageURI(storeUri[3]);
+                break;
+        }
+        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
+        editBit = bitmapDrawable.getBitmap();
+        handler.setImageBitmap(null);
+    }
+
+    /**
+     * prevents the user from using the back button to access other activities
+     */
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            return;
+        }
+        super.onBackPressed();
     }
 }

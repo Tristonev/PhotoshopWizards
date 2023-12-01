@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+
 import edu.utsa.cs3443.photoshopwizards.model.Image;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
     private Uri image1Uri;
     private Uri image2Uri;
     private Uri image3Uri;
+    private ImageView handler;
 
     /**
      * initializes the screen and checks for files passed through intent
@@ -58,28 +60,29 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
         Bitmap bitmap;
         BitmapDrawable bitmapDrawable;
 
-        ImageView view = findViewById(R.id.saveView);
-        view.setImageURI(backgroundUri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        handler = findViewById(R.id.saveView);
+
+        handler.setImageURI(backgroundUri);
+        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
         bitmap = bitmapDrawable.getBitmap();
         background = bitmap;
 
-        view.setImageURI(image1Uri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        handler.setImageURI(image1Uri);
+        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
         bitmap = bitmapDrawable.getBitmap();
         image1 = bitmap;
 
-        view.setImageURI(image2Uri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        handler.setImageURI(image2Uri);
+        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
         bitmap = bitmapDrawable.getBitmap();
         image2 = bitmap;
 
-        view.setImageURI(image3Uri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        handler.setImageURI(image3Uri);
+        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
         bitmap = bitmapDrawable.getBitmap();
         image3 = bitmap;
 
-        view.setImageBitmap(null);
+        handler.setImageBitmap(null);
 
         canvasView = findViewById(R.id.MainCanvas);
         if(background != null) {
@@ -110,10 +113,10 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         if(view.getId() == R.id.CanvasBack){
             Intent intent = new Intent(this, LayersActivity.class);
-            intent.putExtra("image1",image1);
-            intent.putExtra("image2",image2);
-            intent.putExtra("image3",image3);
-            intent.putExtra("background",background);
+            intent.putExtra("uri1", image1Uri);
+            intent.putExtra("uri2", image2Uri);
+            intent.putExtra("uri3", image3Uri);
+            intent.putExtra("uriB", backgroundUri);
             startActivity(intent);
         }else if(view.getId() == R.id.Save){
             try {
@@ -149,5 +152,16 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
             Button button = findViewById(id);
             button.setOnClickListener(this);
         }
+    }
+
+    /**
+     * prevents the user from using the back button to access other activities
+     */
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            return;
+        }
+        super.onBackPressed();
     }
 }

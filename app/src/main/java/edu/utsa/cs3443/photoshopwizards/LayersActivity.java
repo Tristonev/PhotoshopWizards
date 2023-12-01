@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +50,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
     private Bitmap photoPickerBitmap;
     private int layerPicked;
     private int swapId;
+    private Uri backgroundUri;
+    private Uri image1Uri;
+    private Uri image2Uri;
+    private Uri image3Uri;
 
     //Made into an attribute because it will throw an exception if put inside a function while being called from a button
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
@@ -108,10 +113,10 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            image1 = extras.getParcelable("image1");
-            image2 = extras.getParcelable("image2");
-            image3 = extras.getParcelable("image3");
-            background = extras.getParcelable("background");
+            backgroundUri = extras.getParcelable("uriB");
+            image1Uri = extras.getParcelable("uri1");
+            image2Uri = extras.getParcelable("uri2");
+            image3Uri = extras.getParcelable("uri3");
         }
 
         setupImages();
@@ -148,6 +153,32 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         layer2 = findViewById(R.id.LayerImage2);
         layer3 = findViewById(R.id.LayerImage3);
         layer4 = findViewById(R.id.LayerImage4);
+
+        Bitmap bitmap;
+        BitmapDrawable bitmapDrawable;
+
+        ImageView view = findViewById(R.id.saveView);
+        view.setImageURI(backgroundUri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        background = bitmap;
+
+        view.setImageURI(image1Uri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        image1 = bitmap;
+
+        view.setImageURI(image2Uri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        image2 = bitmap;
+
+        view.setImageURI(image3Uri);
+        bitmapDrawable = (BitmapDrawable) view.getDrawable();
+        bitmap = bitmapDrawable.getBitmap();
+        image3 = bitmap;
+
+        view.setImageBitmap(null);
 
         bitmapOnLayer(image1, layer1);
         bitmapOnLayer(image2, layer2);
@@ -375,5 +406,14 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         text.setText("Choose an option");
     }
 
-
+    /**
+     * prevents the user from using the back button to access other activities
+     */
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            return;
+        }
+        super.onBackPressed();
+    }
 }
