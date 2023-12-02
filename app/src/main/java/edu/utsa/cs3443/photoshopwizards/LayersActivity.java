@@ -122,17 +122,6 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
         setupImages();
     }
 
-    private void createFileTest(){
-        File file = new File(getCacheDir() + File.separator + System.currentTimeMillis() + ".jpg");
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("Made it here");
-    }
-
     /**
      * initializes an array of button objects
      * @param buttonIDs, refers to multiple button object (int[])

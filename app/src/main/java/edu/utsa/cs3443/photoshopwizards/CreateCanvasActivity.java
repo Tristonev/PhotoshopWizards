@@ -96,7 +96,6 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
         if(background != null) {
             canvasView.getSource().setImageBitmap(background);
         }
-        //Having a transparent image as the default background would be good
 
         canvas = new PhotoEditor.Builder(this,canvasView).build();
 
