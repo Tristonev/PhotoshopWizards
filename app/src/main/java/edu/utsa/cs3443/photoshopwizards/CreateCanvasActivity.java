@@ -62,25 +62,33 @@ public class CreateCanvasActivity extends AppCompatActivity implements View.OnCl
 
         handler = findViewById(R.id.saveView);
 
-        handler.setImageURI(backgroundUri);
-        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        background = bitmap;
+        if(backgroundUri != null){
+            handler.setImageURI(backgroundUri);
+            bitmapDrawable = (BitmapDrawable) handler.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            background = bitmap;
+        }
 
-        handler.setImageURI(image1Uri);
-        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        image1 = bitmap;
+        if(image1Uri != null){
+            handler.setImageURI(image1Uri);
+            bitmapDrawable = (BitmapDrawable) handler.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            image1 = bitmap;
+        }
 
-        handler.setImageURI(image2Uri);
-        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        image2 = bitmap;
+        if(image2Uri != null){
+            handler.setImageURI(image2Uri);
+            bitmapDrawable = (BitmapDrawable) handler.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            image2 = bitmap;
+        }
 
-        handler.setImageURI(image3Uri);
-        bitmapDrawable = (BitmapDrawable) handler.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        image3 = bitmap;
+        if(image3Uri != null){
+            handler.setImageURI(image3Uri);
+            bitmapDrawable = (BitmapDrawable) handler.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            image3 = bitmap;
+        }
 
         handler.setImageBitmap(null);
 

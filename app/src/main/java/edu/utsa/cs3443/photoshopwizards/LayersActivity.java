@@ -156,27 +156,36 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
 
         Bitmap bitmap;
         BitmapDrawable bitmapDrawable;
+        ImageView view = findViewById(R.id.saveViewLayers);
 
-        ImageView view = findViewById(R.id.saveView);
-        view.setImageURI(backgroundUri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        background = bitmap;
 
-        view.setImageURI(image1Uri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        image1 = bitmap;
+        if(backgroundUri != null){
+            view.setImageURI(backgroundUri);
+            bitmapDrawable = (BitmapDrawable) view.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            background = bitmap;
+        }
 
-        view.setImageURI(image2Uri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        image2 = bitmap;
+        if(image1Uri != null){
+            view.setImageURI(image1Uri);
+            bitmapDrawable = (BitmapDrawable) view.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            image1 = bitmap;
+        }
 
-        view.setImageURI(image3Uri);
-        bitmapDrawable = (BitmapDrawable) view.getDrawable();
-        bitmap = bitmapDrawable.getBitmap();
-        image3 = bitmap;
+        if(image2Uri != null){
+            view.setImageURI(image2Uri);
+            bitmapDrawable = (BitmapDrawable) view.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            image2 = bitmap;
+        }
+
+        if(image3Uri != null){
+            view.setImageURI(image3Uri);
+            bitmapDrawable = (BitmapDrawable) view.getDrawable();
+            bitmap = bitmapDrawable.getBitmap();
+            image3 = bitmap;
+        }
 
         view.setImageBitmap(null);
 
@@ -255,10 +264,18 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(view.getContext(),"You can't make an image with nothing!",Toast.LENGTH_SHORT).show();
             }else{
                 Intent intent = new Intent(this, CreateCanvasActivity.class);
-                intent.putExtra("uri1", Image.saveImageToFile(this, layer1.getDrawable()));
-                intent.putExtra("uri2", Image.saveImageToFile(this, layer2.getDrawable()));
-                intent.putExtra("uri3", Image.saveImageToFile(this, layer3.getDrawable()));
-                intent.putExtra("uriB", Image.saveImageToFile(this, layer4.getDrawable()));
+                if(image1 != null){
+                    intent.putExtra("uri1", Image.saveImageToFile(this, layer1.getDrawable()));
+                }
+                if(image2 != null){
+                    intent.putExtra("uri2", Image.saveImageToFile(this, layer2.getDrawable()));
+                }
+                if(image3 != null){
+                    intent.putExtra("uri3", Image.saveImageToFile(this, layer3.getDrawable()));
+                }
+                if(background != null){
+                    intent.putExtra("uriB", Image.saveImageToFile(this, layer4.getDrawable()));
+                }
                 startActivity(intent);
             }
         }
@@ -336,10 +353,18 @@ public class LayersActivity extends AppCompatActivity implements View.OnClickLis
      */
     private void sendToEdit(int ptr){
         Intent intent = new Intent(this, EditImageActivity.class);
-        intent.putExtra("uri1", Image.saveImageToFile(this, layer1.getDrawable()));
-        intent.putExtra("uri2", Image.saveImageToFile(this, layer2.getDrawable()));
-        intent.putExtra("uri3", Image.saveImageToFile(this, layer3.getDrawable()));
-        intent.putExtra("uriB", Image.saveImageToFile(this, layer4.getDrawable()));
+        if(image1 != null){
+            intent.putExtra("uri1", Image.saveImageToFile(this, layer1.getDrawable()));
+        }
+        if(image2 != null){
+            intent.putExtra("uri2", Image.saveImageToFile(this, layer2.getDrawable()));
+        }
+        if(image3 != null){
+            intent.putExtra("uri3", Image.saveImageToFile(this, layer3.getDrawable()));
+        }
+        if(background != null){
+            intent.putExtra("uriB", Image.saveImageToFile(this, layer4.getDrawable()));
+        }
         intent.putExtra("ptrImage",ptr);
         intent.putExtra("source","LayersActivity");
         startActivity(intent);

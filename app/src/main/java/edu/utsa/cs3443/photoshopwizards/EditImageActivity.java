@@ -183,17 +183,20 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
             source = extras.getString("source");
         }
         switch(ptrImage){
-            case 1:
+            case 0:
                 handler.setImageURI(storeUri[0]);
                 break;
-            case 2:
+            case 1:
                 handler.setImageURI(storeUri[1]);
                 break;
-            case 3:
+            case 2:
                 handler.setImageURI(storeUri[2]);
                 break;
-            case 4:
+            case 3:
                 handler.setImageURI(storeUri[3]);
+                break;
+            default:
+                handler.setImageBitmap(null);
                 break;
         }
         bitmapDrawable = (BitmapDrawable) handler.getDrawable();
