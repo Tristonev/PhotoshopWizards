@@ -1,17 +1,23 @@
 package edu.utsa.cs3443.photoshopwizards;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import edu.utsa.cs3443.photoshopwizards.model.Image;
 
 /**
  * The MainActivity class serves as a menu to either create a canvas or edit a single image
  * @author
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    int[] samples;
 
     /**
      * initializes the screen
@@ -22,9 +28,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int[] buttons = {R.id.MainCreate, R.id.MainEdit};
+        int[] buttons = {R.id.MainCreate, R.id.MainEdit, R.id.downloadButton};
+        samples = new int[] {R.drawable.blast, R.drawable.dog1, R.drawable.dog2, R.drawable.dog3, R.drawable.dog_background, R.drawable.dragon,
+                R.drawable.knight, R.drawable.mage, R.drawable.picture_magic_logo, R.drawable.skeleton};
 
         setupButtons(buttons);
+
 
     }
 
@@ -38,6 +47,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button.setOnClickListener(this);
         }
     }
+
+    /**
+     * Saves the sample images to the gallery
+     * @param drawableIDs, refers to multiple drawable IDs
+     */
+    private void downloadSamples(int[] drawableIDs){
+        ImageView view = findViewById(R.id.MainWizard);
+
+        for(int id : drawableIDs){
+            view.setImageResource(id);
+            try {
+                Image.saveImage(this, view.getDrawable());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        view.setImageResource(R.drawable.picture_magic_logo);
+
+    }
+
 
     /**
      * reacts to user click input
@@ -61,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, EditImageActivity.class);
             intent.putExtra("source","MainActivity");
             startActivity(intent);
+        }
+        if(view.getId() == R.id.downloadButton){
+            downloadSamples(samples);
         }
     }
 

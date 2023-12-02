@@ -97,6 +97,8 @@ public abstract class Image {
         OutputStream outputStream = contentResolver.openOutputStream(Objects.requireNonNull(uri));
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
         Objects.requireNonNull(outputStream);
+        outputStream.close();
+
 
     }
 
