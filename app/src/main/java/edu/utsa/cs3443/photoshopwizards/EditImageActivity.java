@@ -77,9 +77,11 @@ public class EditImageActivity extends AppCompatActivity implements View.OnClick
                 R.id.InvertColor, R.id.Grayscale, R.id.Restore, R.id.SaveImage};
         setupButtons(buttonIDs);
 
-        loadExtra();
+        Bundle extra = getIntent().getExtras();
+        source = extra.getString("source");
 
-        if(editBit != null) {
+        if(source.equals("LayersActivity")) {
+            loadExtra();
             mainImage = findViewById(R.id.EditingImage);
             mainImage.setImageBitmap(editBit);
             editImage = new EditImage(editBit);
